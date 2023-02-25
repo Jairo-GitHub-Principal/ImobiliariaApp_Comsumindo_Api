@@ -135,15 +135,3 @@ class ListarImoveisApi extends Component {
 
 export default ListarImoveisApi;
 
-
-
-/**
- * 
- * 
- * Implementar depois:
- * 
- *  <Image style={listagem.imgLisatagem} 
-                        
-                        source ={{uri:elementoLista.anuncioImage}}></Image>
- */
-

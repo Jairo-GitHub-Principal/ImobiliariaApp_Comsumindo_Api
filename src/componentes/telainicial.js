@@ -4,20 +4,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'; //stack navigation
 import { Box, Text, Pressable, Button, Center, Flex, Spacer, HStack, Badge, } from "native-base";
 
-import CadastarListarCliente from "./cadastroEListagem";
-import ListagemCliente from "./listagemCliente";
-import CadastroImoveisNav from "./cadastroDeimóvel";
-import ListarImovel from "./listarImoveis";
-
-
 
 import { homeStyle } from "../estilos/estilos";
 import { LogBox } from "react-native/Libraries/LogBox/LogBox";
 
 
 //_____________________importes dos componentes que se comunicaraõ com a API________________________________
+import CadastrarLocatarioApi from "../componentesFalaApi/cadastroLocatarioApi";
 import ListarImoveisApi from "../componentesFalaApi/listagemImoveisApi";
 import CadastroImoveisApi from "../componentesFalaApi/cadastroDeimóvelApi";
+import ListagemLocatario from "../componentesFalaApi/listagemLocatariosApi";
 
 
 
@@ -42,7 +38,7 @@ function TelaInicial({ navigation }) {
               
                     <Box flex={1}  flexDirection="column"   alignItems="center" >
                         
-                        <Pressable onPress={() => navigation.navigate("cadastro") }maxW="96">
+                        <Pressable onPress={() => navigation.navigate("cadastrar Locatario") }maxW="96">
                             
                             {({ isHovered, isFocused, isPressed }) => {
                                 return <Box bg={isPressed ? "green.900" : isHovered ? "primary" : "#556b2f"} 
@@ -63,7 +59,7 @@ function TelaInicial({ navigation }) {
                         
                         
 
-                        <Pressable  onPress={() => navigation.navigate("listagem")} >
+                        <Pressable  onPress={() => navigation.navigate("listar Locatario")} >
                             {({ isHovered, isFocused, isPressed }) => {
                                 return <Box bg={isPressed ? "blue.900" : isHovered ? "primary" : "#5f9ea0"} 
                                 style={{transform: [{ scale: isPressed ? 0.9 : 1 } ]
@@ -77,7 +73,7 @@ function TelaInicial({ navigation }) {
                             }}
                             </Pressable>
 
-                            <Pressable  onPress={() => navigation.navigate("cadastrarImovelApi")}>
+                            <Pressable  onPress={() => navigation.navigate("cadastrar Imovél")}>
                             {({ isHovered, isFocused, isPressed }) => {
                                 return <Box  bg={isPressed ? "green.500" : isHovered ? "primary" : "#6b8e23"}
                                 style={{transform: [{ scale: isPressed ? 0.9 : 1 } ]
@@ -85,13 +81,13 @@ function TelaInicial({ navigation }) {
                                     rounded="30" overflow="hidden" borderWidth="1" borderColor="coolGray.300" width={250} maxW="96" shadow="3"  p="5" mb={30}  >
 
                                     <Text color="black" fontSize="17" fontWeight="black" textAlign={"center"}>
-                                        Cadastrar Imóveis c/ API
+                                        Cadastrar imóveis
                                     </Text>
                                 </Box>;
                             }}
                             </Pressable>
 
-                            <Pressable  onPress={() => navigation.navigate("listarImovelApi")}>
+                            <Pressable  onPress={() => navigation.navigate("listar Imovél")}>
                             {({ isHovered, isFocused, isPressed }) => {
                                 return <Box bg={isPressed ? "blueGray.500" : isHovered ? "primary" : "#4682b4"}
                                 style={{transform: [{ scale: isPressed ? 0.9 : 1 } ]
@@ -99,7 +95,7 @@ function TelaInicial({ navigation }) {
                                     rounded="30" overflow="hidden" borderWidth="1" borderColor="coolGray.300" width={250} maxW="96" shadow="3"  p="5">
 
                                     <Text color="black" fontSize="17" fontWeight="black" textAlign={"center"}>
-                                        Imóveis Cadastrados c/ API
+                                         Imóveis cadastrados
                                     </Text>
                                 </Box>;
                             }}
@@ -135,14 +131,11 @@ export default function Home() {
         <stack.Navigator  >
            
             
-            <stack.Screen name="Home" component={TelaInicial} />
-            <stack.Screen name="cadastro" component={CadastarListarCliente} />
-            <stack.Screen name="listagem" component={ListagemCliente} />
-            <stack.Screen name="cadastrarImoveis" component={CadastroImoveisNav} />
-            <stack.Screen name="listarImaveis" component={ListarImovel} />
-            <stack.Screen name="listarImovelApi" component={ListarImoveisApi} />
-            
-            <stack.Screen name="cadastrarImovelApi" component={CadastroImoveisApi} />
+            <stack.Screen name="Pagina inicial" component={TelaInicial} />
+            <stack.Screen name="cadastrar Locatario" component={CadastrarLocatarioApi} />
+            <stack.Screen name="listar Locatario" component={ListagemLocatario} />
+            <stack.Screen name="listar Imovél" component={ListarImoveisApi} />
+            <stack.Screen name="cadastrar Imovél" component={CadastroImoveisApi} />
           
 
         </stack.Navigator>

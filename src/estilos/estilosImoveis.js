@@ -28,9 +28,9 @@ const textTelaDeCadastro = StyleSheet.create({
 })
 
 const botao = StyleSheet.create({
-    viewBotao:{flexDirection:'column', width:'100%',alignItems:'center',margin:'3%',justifyContent:'center'},
-    botaoCadastrar:{backgroundColor:'#cd5c5c',width:wp(44),height:hp(5), borderRadius:30,margin:5},
-    textBotao:{color:'white',textAlign:'center',marginTop:5}
+    viewBotao:{flexDirection:'column',height:50, width:'100%',alignItems:'center',margin:'3%',justifyContent:'center'},
+    botaoCadastrar:{backgroundColor:'#cd5c5c',width:wp(44),height:hp(6), borderRadius:30,margin:5, borderWidth:2,borderColor:"#8a2be2"},
+    textBotao:{color:'white',textAlign:'center',marginTop:5,fontSize:17,fontWeight:'bold'}
 })
 
 const telaInicial = StyleSheet.create({

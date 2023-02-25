@@ -1,5 +1,5 @@
-import React, { Component, PureComponent, useState } from "react";
-import { ScrollView, View, Text, Image, TouchableOpacity, AppRegistry, StyleSheet, Alert,TextInput,ToastAndroid } from "react-native";
+import React, { Component} from "react";
+import { ScrollView, View, Text, Image, TouchableOpacity, Alert,TextInput,ToastAndroid } from "react-native";
 
 
 // estilos
@@ -10,27 +10,10 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
 
 
-// importar a classe de seletor (Picker)
-import SimplePicker from '../componentes/seletor'
-// model
-import imovel from '../model/imoveis';
-
-// database
-import ItemDatabaseImovel from "../databases/ItemDatabaseImovel";
-import { Button } from "@rneui/base";
 
 
 
-
-
-
-
-
-
-
-
-
-class Cadastro extends Component {
+class CadastrarImoveis extends Component {
 
 
   constructor(props) {
@@ -143,9 +126,10 @@ selectImage = () => { // cria um tipo de modal alert pra mim escolher dentro del
     fetch("http://192.168.1.4:5000/WebAPI_ImobiliariaSantos/api/imoveis", parametros) // o endereço de  ip, é oendereço da maquina local, que estou usando, é onde esta instalado o servidor kestrel, 
     .then(response => response.json())
     .then((Json) => {
+      console.log("dados enviados: "+parametros.ImagemImovel);
         ToastAndroid.show("Imvovel cadastrado", ToastAndroid.SHORT);
         //this.props.navigation.navigate('listarImovelApi');
-  
+
         console.log('dados recuperados');
         console.log(Json);
        
@@ -184,11 +168,11 @@ selectImage = () => { // cria um tipo de modal alert pra mim escolher dentro del
             <Text style={{ textAlign: 'center', color: 'white', fontWeight: '700', margin: '2%', marginBottom: 50 }} >nenhuma imagem selecionada</Text>
           }
         <View>
-        <TextInput placeholder="tipo"  onChangeText={(text) => this.setState({ tipoImovel: text })}></TextInput>
-        <TextInput placeholder="endereco"  onChangeText={(text) => this.setState({ enderecoImovel: text })}></TextInput>
-        <TextInput  placeholder="finalidade"  onChangeText={(text) => this.setState({ finalidadeImovel: text })}></TextInput>
-        <TextInput  placeholder="descrição" onChangeText={(text) => this.setState({ descricaoImovel: text })}></TextInput>
-        <TextInput  placeholder="valor"  onChangeText={(text) => this.setState({ precoImovel:text  })}></TextInput>
+        <TextInput placeholder="tipo" placeholderTextColor="#ff7f50" style={{borderWidth:2,borderColor:'gray',borderRadius:20,color:"white",fontSize:18, textAlign:'center',margin:3}}  onChangeText={(text) => this.setState({ tipoImovel: text })}></TextInput>
+        <TextInput placeholder="endereco" placeholderTextColor="#ff7f50" style={{borderWidth:2,borderColor:'gray',borderRadius:20,color:"white",fontSize:18, textAlign:'center',margin:3}}  onChangeText={(text) => this.setState({ enderecoImovel: text })}></TextInput>
+        <TextInput  placeholder="finalidade" placeholderTextColor="#ff7f50" style={{borderWidth:2,borderColor:'gray',borderRadius:20,color:"white",fontSize:18, textAlign:'center',margin:3}}  onChangeText={(text) => this.setState({ finalidadeImovel: text })}></TextInput>
+        <TextInput  placeholder="descrição" placeholderTextColor="#ff7f50" style={{borderWidth:2,borderColor:'gray',borderRadius:20,color:"white",fontSize:18, textAlign:'center',margin:3}} onChangeText={(text) => this.setState({ descricaoImovel: text })}></TextInput>
+        <TextInput  placeholder="valor" placeholderTextColor="#ff7f50" style={{borderWidth:2,borderColor:'gray',borderRadius:20,color:"white",fontSize:18, textAlign:'center',margin:3}}  onChangeText={(text) => this.setState({ precoImovel:text  })}></TextInput>
         </View>
       
        
@@ -226,7 +210,7 @@ function CadastroImoveisApi() {
         <Stack.Navigator screenOptions={{ headerShown: false } } >
            
           
-           <Stack.Screen name= "cadastrarImoveis" component={Cadastro}/>
+           <Stack.Screen name= "cadastrarImoveis" component={CadastrarImoveis}/>
             
 
 
