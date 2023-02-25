@@ -86,6 +86,7 @@ export default class ListagemLocatario extends Component {
                                     </VStack>
                              
                                 </VStack>
+                                
                          </Stack>
                          <Box style={homeStyle.containButtLista}>
                                                        

@@ -9,6 +9,7 @@ import { containerTelaCadastro, listagem, ContainerbotaoTelaListagem } from "../
 import{Image} from 'react-native';
 import { Box, Text, Pressable, AspectRatio, Center, Stack, Heading, HStack, VStack, FlatList } from "native-base";
 import { SafeAreaView } from "react-native";
+import { TextInput } from "react-native-gesture-handler";
 
 
 
@@ -23,9 +24,15 @@ class ListarImoveisApi extends Component {
         this.state = {
 
             loading: false,
-            dataSource: []
+            dataSource: [],
+            locatarioID:0,
+            locatarioID2:0,
+            statusImovel:"Imovel Disponivel",
+            statusBoato:"Alugar"
 
         }
+
+        
 
     }
 
@@ -53,13 +60,37 @@ class ListarImoveisApi extends Component {
     }
 
 
+
+    // alugar Imovel:
+
+    AlugarImovel = (locatarioID)=>{ 
+        if(locatarioID > 0){
+        this.setState({locatarioID2:locatarioID}); 
+        this.setState({statusImovel:"Imovel Alugado",statusBoato:"Alugado"})
+        this.alugado(this.state.locatarioID2);
+        }
+        
+    }  
+// marcar como alugado
+
+    alugado = ()=>{
+       
+        if(this.state.locatarioID2 > 0){
+            return{ borderColor:"red.600",backgroundColor: "red.400"}
+        }else{
+            return{ borderColor: "green.500", backgroundColor: "green.200"}
+        }
+
+    
+}
     // montar as propriedades da lista  nos compenentes de visualização:
 
     montarItemLista = (data) => {
+        
         return (
 
             <Box maxW="100%" rounded="lg" borderColor="black.200" borderWidth="2" m={1} alignItems={"center"}
-                _light={{ borderColor: "green.500", backgroundColor: "green.200" }}
+                _light={this.alugado()}
                 _web={{ shadow: 2, borderWidth: 0 }}
                 _dark={{ backgroundColor: "gray.50" }} >
                 <Box >
@@ -69,10 +100,10 @@ class ListarImoveisApi extends Component {
                 </Box>
 
 
-                <Box style={listagem.viewListaAtributosImoveis}>
+                <Box >
                     <Stack p="1" space={3}>
                         <VStack space={4} w="100%">
-                            <VStack space={2} bg={"green.200"} w="100%" p={"3"}>
+                            <VStack space={2}  w="100%" p={"3"}>
 
                                 <Text fontSize="18" fontWeight='900' color='darkcyan'>id: <Text fontSize="17" fontWeight='800' color={"black"}>{key = data.item.id}</Text> </Text>
                                 <Text fontSize="18" fontWeight='900' color='darkcyan' >Tipo: <Text Text fontSize="17" fontWeight='800' color={"#191970"}> {this.props.tipo = data.item.tipoImovel}</Text> </Text>
@@ -80,32 +111,32 @@ class ListarImoveisApi extends Component {
                                 <Text fontSize="18" fontWeight='900' color='darkcyan'>Finalidade: <Text Text fontSize="17" fontWeight='800' color={"#191970"}> {this.props.finalidade = data.item.finalidadeImovel}</Text> </Text>
                                 <Text fontSize="18" fontWeight='900' color='darkcyan'>Descrição: <Text color={"#191970"}> {this.props.descricao = data.item.descricaoImovel}</Text> </Text>
                                 <Text fontSize="18" fontWeight='900' color='darkcyan'>Preço: <Text Text fontSize="17" fontWeight='800' color={"#191970"}> {this.props.valor = data.item.precoImovel}</Text> </Text>
-
+                                
+                                <Text fontSize="18" fontWeight='900' color='darkcyan'>Locatario ID: <Text Text fontSize="17" fontWeight='800' color={"#191970"}> {this.state.locatarioID2}</Text> </Text>
+                                
+                                <Text style={{ textAlign: 'center', color: 'green', fontWeight: '700',fontSize:18 }} >{this.props.status = this.state.statusImovel}</Text> 
+                                {this.state.locatarioID < 1?
+                                <TextInput placeholder="Informe o ID do locatario"  placeholderTextColor="#ff7f50"   style={{borderWidth:2,borderColor:'gray',borderRadius:20,color:"red",fontSize:18,fontWeight:"bold", textAlign:'center'}} onChangeText={(text) => this.setState({locatarioID:text })}></TextInput>
+                                :<Text></Text>  }
                             </VStack>
 
                         </VStack>
                     </Stack>
+
+                   
                 </Box>
 
 
                 <Box flexDirection="row" >
-                    <Pressable onPress={() => this.RemoverAnuncio(this.props.id = 0)}>
-                        {({ isPressed }) => {
-                            return <Box bg={isPressed ? "blue" : "#2f4f4f"}
-                                style={{ transform: [{ scale: isPressed ? 0.9 : 0.7 }]}}
-                                rounded="10" overflow="hidden" borderWidth="2" borderColor="coolGray.300" width={200} maxW="96" shadow="5" p="3" >
-                                <Text color="white" fontSize="25" fontWeight="900" textAlign={"center"}>  Excluir </Text>
-                            </Box>;
-                        }}
-                    </Pressable>
+                    
                     
                     <Pressable
-                        onPress={() => this.RemoverAnuncio(this.props.id = 0)} >
+                        onPress={() => this.AlugarImovel(this.state.locatarioID)} >
                         {({ isPressed }) => {
                             return <Box bg={isPressed ? "blue" : "#2f4f4f"}
                                 style={{transform: [{ scale: isPressed ? 0.9 : 0.7 }]}}
                                 rounded="10" overflow="hidden" borderWidth="2" borderColor="coolGray.300" width={200} maxW="96" shadow="5" p="3" >
-                                <Text color="white" fontSize="25" fontWeight="900" textAlign={"center"}>Editar </Text>
+                                <Text color="white" fontSize="25" fontWeight="900" textAlign={"center"}>{this.state.statusBoato} </Text>
                             </Box>;
                         }}
                     </Pressable>
@@ -115,6 +146,11 @@ class ListarImoveisApi extends Component {
 
         )
     }
+
+
+
+    
+
 
 
     render() {
@@ -134,4 +170,6 @@ class ListarImoveisApi extends Component {
 
 
 export default ListarImoveisApi;
+
+
 
