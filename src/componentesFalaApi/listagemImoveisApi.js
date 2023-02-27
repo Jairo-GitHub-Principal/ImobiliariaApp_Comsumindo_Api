@@ -1,23 +1,39 @@
 import React, { Component } from "react";
-
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // responsividade
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 // estilos
 import { containerTelaCadastro, listagem, ContainerbotaoTelaListagem } from "../estilos/estilosImoveis";
-import{Image} from 'react-native';
-import { Box, Text, Pressable, AspectRatio, Center, Stack, Heading, HStack, VStack, FlatList } from "native-base";
-import { SafeAreaView } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
+import { Image, ScrollView, Button,SafeAreaView, FlatList,TextInput,Modal } from 'react-native';
+import { Box, Text, Pressable, AspectRatio, Center, Stack, Heading, HStack, VStack,useDisclose } from "native-base";
+
+// telas
+
+import AlugarImovel from "./alugarImovel";
+
+// import de uma const da tela AlugarImoveis
+import { idImovel } from "./alugarImovel";
+
+// import do item model
 
 
 
+// @ts-nocheck
 
 
 
-class ListarImoveisApi extends Component {
+function x (id){
+    idCasa = id;
+    return idCasa;
+}
 
+
+ class ListarImoveis extends Component {
+    setNavegador = (novoNavegador) => {
+        navegador = novoNavegador
+      }
     constructor(props) {
 
         super(props)
@@ -25,17 +41,27 @@ class ListarImoveisApi extends Component {
 
             loading: false,
             dataSource: [],
-            locatarioID:0,
-            locatarioID2:0,
-            statusImovel:"Imovel Disponivel",
-            statusBoato:"Alugar"
+            locatarioID: 0,
+            locatarioID2: 0,
+            statusImovel: "Imovel Disponivel",
+            statusBoato: "Alugar",
+            modalVisible: false,
+            size: "md",
+            IdDisponivelParaAluguel:0,
+         
+
+            // state para implementar uma navegação dentro de uma class
+
 
         }
 
-        
-
+       
     }
 
+
+    
+
+   
     componentDidMount() {
         this.recuperarDados();
     }
@@ -62,40 +88,48 @@ class ListarImoveisApi extends Component {
 
 
     // alugar Imovel:
-
-    AlugarImovel = (locatarioID)=>{ 
-        if(locatarioID > 0){
-        this.setState({locatarioID2:locatarioID}); 
-        this.setState({statusImovel:"Imovel Alugado",statusBoato:"Alugado"})
-        this.alugado(this.state.locatarioID2);
+    // o imovel alugado vai ficar com um titulo de imovel alugado e o estatos do botão 
+    // vai ficar como alugado, 
+    AlugarImovel = (locatarioID) => {
+        if (locatarioID > 0) {
+            this.setState({ locatarioID2: locatarioID });
+            this.setState({ statusImovel: "Imovel Alugado", statusBoato: "Alugado" })
+            this.alugado(this.state.locatarioID2);
         }
-        
-    }  
-// marcar como alugado
 
-    alugado = ()=>{
-       
-        if(this.state.locatarioID2 > 0){
-            return{ borderColor:"red.600",backgroundColor: "red.400"}
-        }else{
-            return{ borderColor: "green.500", backgroundColor: "green.200"}
+    }
+    // marcar como alugado
+
+    alugado = () => { // vai mudar o background do imovel alugado, sugerindo que o mesmo esteja indisponivel
+
+        if (this.state.locatarioID2 > 0) {
+            return { borderColor: "red.600", backgroundColor: "red.400" }
+        } else {
+            return { borderColor: "green.500", backgroundColor: "green.200" }
         }
+
+
+    }
+
+
+
 
     
-}
     // montar as propriedades da lista  nos compenentes de visualização:
 
     montarItemLista = (data) => {
+    
+         return (
         
-        return (
+            
 
-            <Box maxW="100%" rounded="lg" borderColor="black.200" borderWidth="2" m={1} alignItems={"center"}
+            <Box  maxW="100%" rounded="lg" borderColor="black.200" borderWidth="2" m={1} alignItems={"center"}
                 _light={this.alugado()}
                 _web={{ shadow: 2, borderWidth: 0 }}
                 _dark={{ backgroundColor: "gray.50" }} >
                 <Box >
                     <AspectRatio w="100%" ratio={13 / 9} bg="cyan.500">
-                        <Image source={{ uri:data.item.imagemImovel }} alt="image" /> 
+                        <Image source={{ uri: data.item.imagemImovel }} alt="image" />
                     </AspectRatio>
                 </Box>
 
@@ -103,7 +137,7 @@ class ListarImoveisApi extends Component {
                 <Box >
                     <Stack p="1" space={3}>
                         <VStack space={4} w="100%">
-                            <VStack space={2}  w="100%" p={"3"}>
+                            <VStack space={2} w="100%" p={"3"}>
 
                                 <Text fontSize="18" fontWeight='900' color='darkcyan'>id: <Text fontSize="17" fontWeight='800' color={"black"}>{key = data.item.id}</Text> </Text>
                                 <Text fontSize="18" fontWeight='900' color='darkcyan' >Tipo: <Text Text fontSize="17" fontWeight='800' color={"#191970"}> {this.props.tipo = data.item.tipoImovel}</Text> </Text>
@@ -111,36 +145,36 @@ class ListarImoveisApi extends Component {
                                 <Text fontSize="18" fontWeight='900' color='darkcyan'>Finalidade: <Text Text fontSize="17" fontWeight='800' color={"#191970"}> {this.props.finalidade = data.item.finalidadeImovel}</Text> </Text>
                                 <Text fontSize="18" fontWeight='900' color='darkcyan'>Descrição: <Text color={"#191970"}> {this.props.descricao = data.item.descricaoImovel}</Text> </Text>
                                 <Text fontSize="18" fontWeight='900' color='darkcyan'>Preço: <Text Text fontSize="17" fontWeight='800' color={"#191970"}> {this.props.valor = data.item.precoImovel}</Text> </Text>
-                                
-                                <Text fontSize="18" fontWeight='900' color='darkcyan'>Locatario ID: <Text Text fontSize="17" fontWeight='800' color={"#191970"}> {this.state.locatarioID2}</Text> </Text>
-                                
-                                <Text style={{ textAlign: 'center', color: 'green', fontWeight: '700',fontSize:18 }} >{this.props.status = this.state.statusImovel}</Text> 
-                                {this.state.locatarioID < 1?
-                                <TextInput placeholder="Informe o ID do locatario"  placeholderTextColor="#ff7f50"   style={{borderWidth:2,borderColor:'gray',borderRadius:20,color:"red",fontSize:18,fontWeight:"bold", textAlign:'center'}} onChangeText={(text) => this.setState({locatarioID:text })}></TextInput>
-                                :<Text></Text>  }
+
+                                <Text fontSize="18" fontWeight='900' color='darkcyan'>Locatario ID: <Text Text fontSize="17" fontWeight='800' color={"#191970"}> {this.props.IDloc = data.item.IDlocatario}</Text> </Text>
+
+                              
                             </VStack>
 
                         </VStack>
                     </Stack>
 
-                   
+
                 </Box>
 
 
                 <Box flexDirection="row" >
-                    
-                    
+
+
                     <Pressable
-                        onPress={() => this.AlugarImovel(this.state.locatarioID)} >
+                        onPress={()=> navegador.navigate("alugar Imovél")}
+                        >
                         {({ isPressed }) => {
                             return <Box bg={isPressed ? "blue" : "#2f4f4f"}
-                                style={{transform: [{ scale: isPressed ? 0.9 : 0.7 }]}}
+                                style={{ transform: [{ scale: isPressed ? 0.9 : 0.7 }] }}
                                 rounded="10" overflow="hidden" borderWidth="2" borderColor="coolGray.300" width={200} maxW="96" shadow="5" p="3" >
                                 <Text color="white" fontSize="25" fontWeight="900" textAlign={"center"}>{this.state.statusBoato} </Text>
                             </Box>;
                         }}
                     </Pressable>
                 </Box>
+
+               
             </Box>
 
 
@@ -148,8 +182,6 @@ class ListarImoveisApi extends Component {
     }
 
 
-
-    
 
 
 
@@ -161,7 +193,8 @@ class ListarImoveisApi extends Component {
                 <FlatList
                     data={this.state.dataSource}
                     renderItem={item => this.montarItemLista(item)}
-                    keyExtractor={item => item.id.toString()} />
+                    keyExtractor={item => item.id.toString()} 
+                    />
 
             </SafeAreaView>
         );
@@ -169,7 +202,52 @@ class ListarImoveisApi extends Component {
 }
 
 
-export default ListarImoveisApi;
+
+export const List = new ListarImoveis(); 
+const IdImovelDisponivel = idImovel;
+const stack = createNativeStackNavigator();
 
 
 
+export default function ListarImoveisApi() {
+    return (
+
+        <stack.Navigator screenOptions={{ headerShown: false }}>
+           
+            <stack.Screen name="listar Imovél">
+                { 
+                    ({navigation})=>{
+                        List.setNavegador(navigation)
+                        return(<ListarImoveis/>)
+                    }
+                }
+            </stack.Screen>
+
+                <stack.Screen name="alugar Imovél">
+                { 
+                    ({num})=>{
+                        IdImovelDisponivel.setIDImovelDisponivel(num)
+                        return(<AlugarImovel/>)
+                    }
+                }
+                    
+                </stack.Screen>
+          
+
+        </stack.Navigator>
+
+    )
+
+}
+
+
+
+//this.AlugarImovel(this.state.locatarioID)}
+
+/**
+ * 
+ *   <Text style={{ textAlign: 'center', color: 'green', fontWeight: '700', fontSize: 18 }} >{this.props.status = this.state.statusImovel}</Text>
+                                {this.state.locatarioID < 1 ?
+                                    <TextInput placeholder="Informe o ID do locatario" placeholderTextColor="#ff7f50" style={{ borderWidth: 2, borderColor: 'gray', borderRadius: 20, color: "red", fontSize: 18, fontWeight: "bold", textAlign: 'center' }} onChangeText={(text) => this.setState({ locatarioID: text })}></TextInput>
+                                    : <Text></Text>}
+ */

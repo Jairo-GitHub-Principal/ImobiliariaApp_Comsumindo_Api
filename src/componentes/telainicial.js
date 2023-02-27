@@ -16,6 +16,10 @@ import CadastroImoveisApi from "../componentesFalaApi/cadastroDeimóvelApi";
 import ListagemLocatario from "../componentesFalaApi/listagemLocatariosApi";
 
 
+// teste de envio de dados entre telas 
+
+
+
 
 
 
@@ -101,6 +105,8 @@ function TelaInicial({ navigation }) {
                             }}
                             </Pressable>
 
+                           
+
                             
 
                            
@@ -136,6 +142,7 @@ export default function Home() {
             <stack.Screen name="listar Locatario" component={ListagemLocatario} />
             <stack.Screen name="listar Imovél" component={ListarImoveisApi} />
             <stack.Screen name="cadastrar Imovél" component={CadastroImoveisApi} />
+           
           
 
         </stack.Navigator>
