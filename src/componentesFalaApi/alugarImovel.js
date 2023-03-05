@@ -1,145 +1,61 @@
-import React,{Component,useState} from "react";
-import{StyleSheet}from 'react-native';
-import { View,Text,TextInput,Button,SafeAreaView,Box,FormControl,Stack,Input,Pressable } from "native-base";
+import React, { Component } from 'react';
+import { View, Text, TextInput, Button,ToastAndroid  } from 'react-native';
+import { StylePedido } from '../estilos/StyleLista';
 
+class AlugarImovel extends Component {
 
-
-
-
-
-class AlugarImovel extends Component{
    
-
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state={ 
-
-            idLocatario:0
-            
-        }
-       
-        }
-
-        setIDImovelDisponivel = (novoImovel) => {
-            idImovelDisponivel = novoImovel;
-            return idImovelDisponivel;
-          }
-
-
-          
-      // metodo que fara o registro dos pedidos
-
-  registrarImoveis = () =>{  
-    let parametros = {
-        method:'PUT',
-        headers: { Accept: 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-        
-            IDlocatario:this.state.idLocatario
-          
-                  
-        })
-   }
-  // abaixo temo o caminho do local do servidor para que o dispositivo movel possa chegar a té ele para fazer a requisição
-    fetch("http://192.168.1.4:5000/WebAPI_ImobiliariaSantos/api/imoveis", parametros) // o endereço de  ip, é oendereço da maquina local, que estou usando, é onde esta instalado o servidor kestrel, 
-    .then(response => response.json())
-    .then((Json) => {
-      console.log("dados enviados: "+parametros.ImagemImovel);
-        ToastAndroid.show("Imvovel cadastrado", ToastAndroid.SHORT);
-        //this.props.navigation.navigate('listarImovelApi');
-
-        console.log('dados recuperados');
-        console.log(Json);
-       
-       
-    })
-    .catch(error => console.log("Falha ao gravar dados: " + error));
-  }
-                    
-
-          
-        render(){
+        this.state = {
            
-            return(
-                <Box alignItems="center">
 
-                    <Text>ID: </Text>
-                <Box w="100%" maxWidth="300px">
-                  <FormControl isRequired>
-                    <Stack mx="4">
-                      <FormControl.Label>Digite aqui o ID do locatario</FormControl.Label>
-                      <Input type="text"  placeholder="Id do locatario, para cadastro de aluguél" 
-                      onChangeText={(text) => this.setState({ idLocatario:text  })}/>
-                     
-                      
-                    </Stack>
-                  </FormControl>
-                </Box>
-
-
-                <Pressable onPress={this.registrarImoveis} >
-                        {({ isPressed }) => {
-                            return <Box bg={isPressed ? "blue" : "#2f4f4f"}
-                                style={{ transform: [{ scale: isPressed ? 0.9 : 0.7 }] }}
-                                rounded="10" overflow="hidden" borderWidth="2" borderColor="coolGray.300" width={200} maxW="96" shadow="5" p="3" >
-                                <Text color="white" fontSize="25" fontWeight="900" textAlign={"center"}>Cadastrar </Text>
-                            </Box>;
-                        }}
-                    </Pressable>
-              </Box>
-            );
+            
+           
         }
-
-
     }
 
-export const idImovel = new AlugarImovel();
+    registrarPedido = () =>{
+        let parametros = {
+            method:'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              
+            })
+
+      }
+      // abaixo temo o caminho do local do servidor para que o dispositivo movel possa chegar a té ele para fazer a requisição
+        fetch("http://192.168.1.4:5000/WebAPI_ImobiliariaSantos/api/Imoveis", parametros) // o endereço de  ip, é oendereço da maquina local, que estou usando, é onde esta instalado o servidor kestrel, 
+        .then(response => response.json())
+        .then((dadosJson) => {
+            ToastAndroid.show("Pedido #" + dadosJson.id + " cadastrado", ToastAndroid.SHORT);
+            this.props.navigation.navigate('listar Imovél por ID'); // apos concluir o pedido, volta pra pela de  visualização de pratos
+        })
+        .catch(error => console.log("Falha ao gravar dados: " + error));
+      }
+                        
+
+    render() {
+        return (
+            <View>
+                <Text style={StylePedido.price}>ID:  </Text>
+                <Text style={StylePedido.price}>Tipo:  </Text>
+                <Text style={StylePedido.price}>Endereço:   </Text>
+                <Text style={StylePedido.price}>Finalidade:   </Text>
+                <Text style={StylePedido.price}>Descrição:  </Text>
+                <Text style={StylePedido.price}>Preco: R$ </Text>
+                <Text style={StylePedido.price}>ID locatario:  </Text>
+               
+                <TextInput  style={StylePedido.inputText}  placeholder="IDlocatario" returnKeyType="go" autoCorrect={false} onChangeText={text => this.setState({ locatarioID: text })}></TextInput>
+                <Text style={StylePedido.price}>Total: R$ {this.state.total} </Text>
+                <Button title="Realizar Pedido" color="#1abc9c" onPress={this.registrarPedido}/>
+            </View>
+        );
+    }
+}
+
 export default AlugarImovel;
-
-
-
-
-
-
-
-
-
-
-/**
-
-const SecondPage = ({route}) => {
-    return (
-      <SafeAreaView style={{flex: 1}}>
-        <View style={styles.container}>
-          <Text style={styles.heading}>
-          Passar Valor com React Navigation
-          </Text>
-          <Text style={styles.textStyle}>
-            Valor passado da Primeira Tela: {route.params.paramKey}
-          </Text>
-        </View>
-      </SafeAreaView>
-    );
-  };
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      padding: 20,
-    },
-    heading: {
-      fontSize: 25,
-      textAlign: 'center',
-      marginVertical: 10,
-    },
-    textStyle: {
-      textAlign: 'center',
-      fontSize: 18,
-      marginVertical: 10,
-    },
-  });
-
-  */
+export const Alugarimovel = new AlugarImovel();

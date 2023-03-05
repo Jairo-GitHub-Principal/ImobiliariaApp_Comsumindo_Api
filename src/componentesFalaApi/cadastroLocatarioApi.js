@@ -123,7 +123,7 @@ class CadastrarLocatarioApi extends Component {
     .then(response => response.json())
     .then((Json) => {
       
-        ToastAndroid.show("Imvovel cadastrado", ToastAndroid.SHORT);
+        ToastAndroid.show("lacatario cadastrado", ToastAndroid.SHORT);
         //this.props.navigation.navigate('listarImovelApi');
 
         console.log('dados recuperados');

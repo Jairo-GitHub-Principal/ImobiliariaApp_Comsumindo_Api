@@ -91,7 +91,7 @@ export default class ListagemLocatario extends Component {
                          <Box style={homeStyle.containButtLista}>
                                                        
     
-                                                       <Pressable   onPressIn={() => this.remover( this.props.id = elementoLista.id)} >
+                                                       <Pressable   >
                                                            
                                                        {({ isPressed }) => {
                                                            return <Box bg={isPressed ? "blue" :"#2f4f4f"}

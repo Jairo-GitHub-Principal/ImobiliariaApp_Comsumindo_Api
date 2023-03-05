@@ -19,14 +19,14 @@ class CadastrarImoveis extends Component {
   constructor(props) {
     super(props)
       
-  // states
+
     this.state = {
       
       tipoImovel:'',
       enderecoImovel:'',
       finalidadeImovel:'',
       descricaoImovel:'',
-      precoImovel:0,
+      precoImovel:0.00,
       imagemImovel:'',
      }
      
@@ -105,38 +105,37 @@ selectImage = () => { // cria um tipo de modal alert pra mim escolher dentro del
 
       // metodo que fara o registro dos pedidos
 
-  registrarImoveis = () =>{  
-    let parametros = {
-        method:'POST',
-        headers: { Accept: 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-        
-          TipoImovel:this.state.tipoImovel,
-          EnderecoImovel:this.state.enderecoImovel,
-          FinalidadeImovel:this.state.finalidadeImovel,
-          DescricaoImovel:this.state.descricaoImovel,
-          PrecoImovel:this.state.precoImovel,
-          ImagemImovel:this.state.imagemImovel
-                  
+      registrarImoveis = () =>{  
+        let parametros = {
+            method:'POST',
+            headers: { Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              Tipoimovel:this.state.tipoImovel,
+              Enderecoimovel:this.state.enderecoImovel,
+              Finalidadeimovel:this.state.finalidadeImovel,
+              Descricaoimovel:this.state.descricaoImovel,
+              Precoimovel:parseFloat(this.state.precoImovel),    
+              ImagemLocatario:this.state.imagemImovel                                         
+                      
+            })
+       }
+      // abaixo temo o caminho do local do servidor para que o dispositivo movel possa chegar a té ele para fazer a requisição
+        fetch("http://192.168.1.4:5000/WebAPI_ImobiliariaSantos/api/imoveis", parametros) // o endereço de  ip, é oendereço da maquina local, que estou usando, é onde esta instalado o servidor kestrel, 
+        .then(response => response.json())
+        .then((Json) => {
+          
+            ToastAndroid.show("imoveis  cadastrado", ToastAndroid.SHORT);
+            //this.props.navigation.navigate('listarImovelApi');
+    
+            console.log('dados recuperados');
+            console.log(Json);
+           
+           
         })
-   }
-  // abaixo temo o caminho do local do servidor para que o dispositivo movel possa chegar a té ele para fazer a requisição
-    fetch("http://192.168.1.4:5000/WebAPI_ImobiliariaSantos/api/imoveis", parametros) // o endereço de  ip, é oendereço da maquina local, que estou usando, é onde esta instalado o servidor kestrel, 
-    .then(response => response.json())
-    .then((Json) => {
-      console.log("dados enviados: "+parametros.ImagemImovel);
-        ToastAndroid.show("Imvovel cadastrado", ToastAndroid.SHORT);
-        //this.props.navigation.navigate('listarImovelApi');
-
-        console.log('dados recuperados');
-        console.log(Json);
-       
-       
-    })
-    .catch(error => console.log("Falha ao gravar dados: " + error));
-  }
+        .catch(error => console.log("Falha ao gravar dados: " + error));
+      }
                     
   
   
@@ -168,13 +167,13 @@ selectImage = () => { // cria um tipo de modal alert pra mim escolher dentro del
             <Text style={{ textAlign: 'center', color: 'white', fontWeight: '700', margin: '2%', marginBottom: 50 }} >nenhuma imagem selecionada</Text>
           }
         <View>
-        <TextInput placeholder="tipo" placeholderTextColor="#ff7f50" style={{borderWidth:2,borderColor:'gray',borderRadius:20,color:"white",fontSize:18, textAlign:'center',margin:3}}  onChangeText={(text) => this.setState({ tipoImovel: text })}></TextInput>
-        <TextInput placeholder="endereco" placeholderTextColor="#ff7f50" style={{borderWidth:2,borderColor:'gray',borderRadius:20,color:"white",fontSize:18, textAlign:'center',margin:3}}  onChangeText={(text) => this.setState({ enderecoImovel: text })}></TextInput>
-        <TextInput  placeholder="finalidade" placeholderTextColor="#ff7f50" style={{borderWidth:2,borderColor:'gray',borderRadius:20,color:"white",fontSize:18, textAlign:'center',margin:3}}  onChangeText={(text) => this.setState({ finalidadeImovel: text })}></TextInput>
-        <TextInput  placeholder="descrição" placeholderTextColor="#ff7f50" style={{borderWidth:2,borderColor:'gray',borderRadius:20,color:"white",fontSize:18, textAlign:'center',margin:3}} onChangeText={(text) => this.setState({ descricaoImovel: text })}></TextInput>
-        <TextInput  placeholder="valor" placeholderTextColor="#ff7f50" style={{borderWidth:2,borderColor:'gray',borderRadius:20,color:"white",fontSize:18, textAlign:'center',margin:3}}  onChangeText={(text) => this.setState({ precoImovel:text  })}></TextInput>
+        <TextInput placeholder="tipo" placeholderTextColor="#ff7f50" style={{borderWidth:2,borderColor:'gray',borderRadius:20,color:"white",fontSize:18, textAlign:'center',margin:3}}  onChangeText={(text) => this.setState({tipoImovel: text})}></TextInput>
+        <TextInput placeholder="endereco"  placeholderTextColor="#ff7f50" style={{borderWidth:2,borderColor:'gray',borderRadius:20,color:"white",fontSize:18, textAlign:'center',margin:3}}  onChangeText={(text) => this.setState({enderecoImovel: text})}></TextInput>
+        <TextInput  placeholder="finalidade" placeholderTextColor="#ff7f50" style={{borderWidth:2,borderColor:'gray',borderRadius:20,color:"white",fontSize:18, textAlign:'center',margin:3}}  onChangeText={(text) => this.setState({finalidadeImovel: text})}></TextInput>
+        <TextInput  placeholder="descrição" placeholderTextColor="#ff7f50" style={{borderWidth:2,borderColor:'gray',borderRadius:20,color:"white",fontSize:18, textAlign:'center',margin:3}} onChangeText={(text) => this.setState({descricaoImovel: text})}></TextInput>
+        <TextInput  placeholder="valor"   placeholderTextColor="#ff7f50" style={{borderWidth:2,borderColor:'gray',borderRadius:20,color:"white",fontSize:18, textAlign:'center',margin:3}}   onChangeText={(text) => this.setState({precoImovel: text})}></TextInput>
         </View>
-      
+                                                                                                                                                                                                                                                                                                 
        
 
           <View style={botao.viewBotao}>

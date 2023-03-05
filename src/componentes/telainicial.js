@@ -14,6 +14,9 @@ import CadastrarLocatarioApi from "../componentesFalaApi/cadastroLocatarioApi";
 import ListarImoveisApi from "../componentesFalaApi/listagemImoveisApi";
 import CadastroImoveisApi from "../componentesFalaApi/cadastroDeimóvelApi";
 import ListagemLocatario from "../componentesFalaApi/listagemLocatariosApi";
+import ListarImoveisPorIDApi from "../componentesFalaApi/listarPorId";
+import AlugarImovel from "../componentesFalaApi/alugarImovel";
+
 
 
 // teste de envio de dados entre telas 
@@ -105,6 +108,21 @@ function TelaInicial({ navigation }) {
                             }}
                             </Pressable>
 
+
+                            <Pressable  onPress={() => navigation.navigate("listar Imovél por ID")}>
+                            {({ isHovered, isFocused, isPressed }) => {
+                                return <Box bg={isPressed ? "blueGray.500" : isHovered ? "primary" : "#4682b4"}
+                                style={{transform: [{ scale: isPressed ? 0.9 : 1 } ]
+                                }}
+                                    rounded="30" overflow="hidden" borderWidth="1" borderColor="coolGray.300" width={250} maxW="96" shadow="3"  p="5">
+
+                                    <Text color="black" fontSize="17" fontWeight="black" textAlign={"center"}>
+                                         Imóveis 
+                                    </Text>
+                                </Box>;
+                            }}
+                            </Pressable>
+
                            
 
                             
@@ -142,6 +160,8 @@ export default function Home() {
             <stack.Screen name="listar Locatario" component={ListagemLocatario} />
             <stack.Screen name="listar Imovél" component={ListarImoveisApi} />
             <stack.Screen name="cadastrar Imovél" component={CadastroImoveisApi} />
+            <stack.Screen name="listar Imovél por ID" component={ListarImoveisPorIDApi} />
+            <stack.Screen name="AlugarImovel" component={AlugarImovel} />
            
           
 
@@ -154,3 +174,19 @@ export default function Home() {
 
 // estilos de cores native base para botoes
 
+// estilos de cores native base para botoes
+
+
+
+/**
+ * 
+ *  <stack.Screen name="listar Imovél">
+                {
+                    ({navigation})=>{
+                        notificador.setNavegador(navigation)
+                        return(<ListarImoveisApi/>);
+                    }
+                }
+                
+                </stack.Screen>   
+ */

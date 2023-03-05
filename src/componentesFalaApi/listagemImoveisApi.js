@@ -15,6 +15,7 @@ import AlugarImovel from "./alugarImovel";
 
 // import de uma const da tela AlugarImoveis
 import { idImovel } from "./alugarImovel";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 // import do item model
 
@@ -31,6 +32,8 @@ function x (id){
 
 
  class ListarImoveis extends Component {
+
+    
     setNavegador = (novoNavegador) => {
         navegador = novoNavegador
       }
@@ -161,14 +164,24 @@ function x (id){
                 <Box flexDirection="row" >
 
 
-                    <Pressable
-                        onPress={()=> navegador.navigate("alugar Imovél")}
-                        >
+                    <Pressable  onPress={()=> navegador.navigate("AlugarImovel")} >
                         {({ isPressed }) => {
                             return <Box bg={isPressed ? "blue" : "#2f4f4f"}
                                 style={{ transform: [{ scale: isPressed ? 0.9 : 0.7 }] }}
                                 rounded="10" overflow="hidden" borderWidth="2" borderColor="coolGray.300" width={200} maxW="96" shadow="5" p="3" >
                                 <Text color="white" fontSize="25" fontWeight="900" textAlign={"center"}>{this.state.statusBoato} </Text>
+                            </Box>;
+                        }}
+                    </Pressable>
+
+                    <Pressable
+                       
+                        >
+                        {({ isPressed }) => {
+                            return <Box bg={isPressed ? "blue" : "#2f4f4f"}
+                                style={{ transform: [{ scale: isPressed ? 0.9 : 0.7 }] }}
+                                rounded="10" overflow="hidden" borderWidth="2" borderColor="coolGray.300" width={200} maxW="96" shadow="5" p="3" >
+                                <Text color="white" fontSize="25" fontWeight="900" textAlign={"center"}> Excluir</Text>
                             </Box>;
                         }}
                     </Pressable>
